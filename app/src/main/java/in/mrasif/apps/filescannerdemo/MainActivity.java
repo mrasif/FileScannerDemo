@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId()==R.id.btnScanFiles){
             if (fileManager.isExternalStorageReadable() && !TextUtils.isEmpty(exts[spExtension.getSelectedItemPosition()])) {
 //                File dir = new File(fileManager.getExternalRootPath()+"/WhatsApp/");
-                File dir = new File(fileManager.getExternalRootPath());
+                File dir = new File(fileManager.getExternalRootPath()+"");
                 rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 rvFiles.setAdapter(new MyAdapter(getApplicationContext(),fileManager.ScanFiles(dir,exts[spExtension.getSelectedItemPosition()])));
             }
