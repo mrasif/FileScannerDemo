@@ -1,7 +1,9 @@
 package in.mrasif.apps.filescannerdemo;
 
+import android.Manifest;
 import android.media.MediaPlayer;
 import android.os.StrictMode;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,22 +19,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.mrasif.apps.filescannerdemo.adapters.MyAdapter;
+import in.mrasif.apps.filescannerdemo.utils.AskPermission;
 import in.mrasif.apps.filescannerdemo.utils.FileType;
 import in.mrasif.apps.filescannerdemo.utils.FileManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     FileManager fileManager;
-
+    AskPermission askPermission;
     Spinner spExtension;
     Button btnScanFiles;
     RecyclerView rvFiles;
-    String exts[]={"mp3","mp4"};
+    String exts[]={"mp3", "mp4"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        askPermission=new AskPermission(this);
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -47,6 +51,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spExtension.setAdapter(aa);
         spExtension.setSelection(0);
+
+        askPermission.askPermission(new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.MEDIA_CONTENT_CONTROL},2);
+
     }
 
     @Override
