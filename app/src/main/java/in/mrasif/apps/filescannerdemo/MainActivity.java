@@ -1,6 +1,7 @@
 package in.mrasif.apps.filescannerdemo;
 
 import android.media.MediaPlayer;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         spExtension=findViewById(R.id.spExtension);
         btnScanFiles=findViewById(R.id.btnScanFiles);
         rvFiles=findViewById(R.id.rvFiles);
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (fileManager.isExternalStorageReadable() && !TextUtils.isEmpty(exts[spExtension.getSelectedItemPosition()])) {
 //                File dir = new File(fileManager.getExternalRootPath()+"/WhatsApp/");
                 File dir = new File(fileManager.getExternalRootPath()+"");
+                System.out.println(dir);
                 rvFiles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 rvFiles.setAdapter(new MyAdapter(getApplicationContext(),fileManager.ScanFiles(dir,exts[spExtension.getSelectedItemPosition()])));
             }
